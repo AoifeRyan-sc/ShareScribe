@@ -1,1 +1,1 @@
-from .helper_functions import parse_contents
+from .helper_functions import parse_contents, check_file

@@ -1,6 +1,6 @@
 from dash import dcc, html, callback, Input, Output, State
 import dash_bootstrap_components as dbc
-from utils import parse_contents
+from utils import parse_contents, check_file
 from dash.exceptions import PreventUpdate
 
 title_and_tooltip = html.Span([
@@ -26,7 +26,7 @@ file_upload_widget = html.Span([
     dcc.Upload(
         ['Drag and Drop or ', html.A('Select Files')],
         id = "upload-data",
-        multiple = False, accept = '.m4a', max_size = 25e6
+        multiple = False, accept = '.m4a', max_size = 25 * 1024 * 1024 # in bytes
     ),
     dbc.Spinner(html.Div(id = "loading-output")),
     html.Div(id = "upload-status"),
@@ -50,25 +50,34 @@ file_upload_widget = html.Span([
         )
     ]),
     dbc.Button("Process Video", id = "go-button", color="primary", className="mt-3", n_clicks = 0),
-    dbc.Button("Download Transcript", color="secondary", className="mt-3", n_clicks = 0)
+    # dbc.Button("Download Transcript", id = "download-button", color="secondary", className="mt-3", n_clicks = 0),
+    dcc.Download(id="download-transcript") # just download automatically?
 ])
 
 
 @callback(
-        Output('output-data-upload', 'children'),
-        #   Input('action-input', 'value'),
+        Output('output-message', 'children'),
+        # Output('output-data-upload', 'children'),
+        Output("download-transcript", "data"),
         Input('go-button', 'n_clicks'),
+        Input('action-input', 'value'),
         Input('upload-data', 'contents'),
         State('upload-data', 'filename'),
-        State('upload-data', 'last_modified')
+        State('upload-data', 'last_modified'),
+        prevent_initial_call=True,
         )
-def update_output(n_clicks, content, name, date):
+def update_output(n_clicks, action, content, name):
+
     if content is not None and n_clicks > 0:
-        action = "transcriptions"
+        check_output = check_file(content, name)
+
+        if type(check_output) == str:
+            return(check_output), None
+        
         children = [
-            parse_contents(action, content, name, date)
+            parse_contents(action, content)
         ]
-        return children
+        return 'Download your transcript', dict(content=children, filename="transcript.doc")
 
 @callback(
     Output("loading-output", "children"),

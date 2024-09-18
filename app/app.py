@@ -23,7 +23,7 @@ app.layout = dbc.Container([
                 className="justify-content-center align-items-center h-100"
                 ),
                 footer,
-                dbc.Row(dbc.Col(html.Div(id='output-data-upload'))) # need to get this out of here
+                dbc.Row(dbc.Col(html.Div(id='output-message'))) # need to get this out of here
 ], style={"height": "80vh"})
 
 
