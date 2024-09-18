@@ -43,8 +43,9 @@ file_upload_widget = html.Span([
         dbc.RadioItems(
             id = "output-type", value = "srt", inline = True,
             options = [
-                {"label": "SRT", "value": "srt"},
-                {"label": "DOC", "value": "doc"}
+                {"label": "srt", "value": "srt"},
+                {"label": "doc", "value": "text"},
+                {"label": "json", "value": "json"} # what other formats are available?
             # {"label": "xlsx", "value": "xlsx"} # do I want this?
         ]
         )
@@ -57,16 +58,15 @@ file_upload_widget = html.Span([
 
 @callback(
         Output('output-message', 'children'),
-        # Output('output-data-upload', 'children'),
         Output("download-transcript", "data"),
         Input('go-button', 'n_clicks'),
         Input('action-input', 'value'),
+        Input('output-type', 'value'),
         Input('upload-data', 'contents'),
         State('upload-data', 'filename'),
-        State('upload-data', 'last_modified'),
-        prevent_initial_call=True,
+        prevent_initial_call=True
         )
-def update_output(n_clicks, action, content, name):
+def update_output(n_clicks, action, response_format, content, name):
 
     if content is not None and n_clicks > 0:
         check_output = check_file(content, name)
@@ -75,9 +75,9 @@ def update_output(n_clicks, action, content, name):
             return(check_output), None
         
         children = [
-            parse_contents(action, content)
+            parse_contents(action, content, response_format)
         ]
-        return 'Download your transcript', dict(content=children, filename="transcript.doc")
+        return 'Download your transcript', dict(content=children, filename="".join({"transcript.", response_format}))
 
 @callback(
     Output("loading-output", "children"),

@@ -20,7 +20,7 @@ def check_file(contents, filename):
     
     return decoded
 
-def parse_contents(action, contents):
+def parse_contents(action, contents, response_format):
     _, content_string = contents.split(',')
     print("parse_content running")
     decoded = base64.b64decode(content_string)
@@ -34,7 +34,7 @@ def parse_contents(action, contents):
     api_output = getattr(client.audio, action).create(
         model="whisper-1", 
         file=file_like,
-        response_format="srt",
+        response_format= response_format,
         # response_format="verbose_json", # might add option for this but creates problems with timestamps for translations
         # timestamp_granularities=["segment"]
     )
