@@ -1,0 +1,20 @@
+[class*="primary"], input[type='radio'] {
+    color: #ffffff;
+    background-color: #7800c6!important;
+    accent-color: #7800c6;
+    border-color: #7800c6!important;
+    margin: 0.2rem;
+}
+[class*="secondary"], input[type='radio'] {
+    color: #ffffff;
+    background-color: #ffb600!important;
+    accent-color: #ffb600;
+    border-color: #ffb600!important;
+    margin: 0.2rem;
+}
+/* [class*="primary"]:hover {
+    background-color: #bb7fe2!important;
+} */
+/* .spinner-border {
+    border-right-color: transparent!important;
+} */
