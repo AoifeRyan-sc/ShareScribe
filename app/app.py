@@ -6,6 +6,9 @@ import io
 import openai
 import pandas as pd
 from dash.exceptions import PreventUpdate
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 
 # import dash
@@ -127,7 +130,8 @@ def parse_contents(action, contents, filename, date):
     decoded = base64.b64decode(content_string)
 
     # Initialize OpenAI API key (no need to create a client object)
-    client = openai.OpenAI(api_key = "sk-")
+    api_key = os.getenv("OPENAI_API_KEY")
+    client = openai.OpenAI(api_key = api_key)
 
     # Use io.BytesIO to create a file-like object from the decoded binary
     # file_like = io.StringIO(decoded.decode("utf-8"))
