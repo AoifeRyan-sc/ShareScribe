@@ -1,7 +1,7 @@
 from dash import Dash, dcc, Input, Output, State, html, callback, clientside_callback
 import dash_bootstrap_components as dbc
 from dash.exceptions import PreventUpdate
-from helper_functions.helper_functions import parse_contents
+from utils import parse_contents
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME])
 color_mode_switch = html.Span(
@@ -96,6 +96,9 @@ app.layout = dbc.Container([
                                 width = {'size': 2}, align = "end"), justify = "end"),
                 dbc.Row(dbc.Col(html.Div(id='output-data-upload')))
 ], style={"height": "80vh"})
+
+
+
 
 clientside_callback(
     """
