@@ -36,6 +36,7 @@ body {
     border-color: #ffda7f;
     margin: 0.2rem;
 }
+
 [class*="secondary"]:hover {
     background-color: #ffda7f; /* Change this to the desired hover color */
     border-color: #ffda7f;
@@ -44,6 +45,13 @@ body {
 [class*="secondary"]:active {
     background-color: #ffda7f; /* Set this to the color you want during the click */
     border-color: #ffda7f; /* Adjust as needed */
+    outline: none;
+}
+/* Styles for the radio button when it is selected */
+input[type='radio']:checked {
+    color: #a14adb; /* Text color of the label when selected */
+    background-color: #a14adb; /* Background color of the label when selected */
+    accent-color: #ffffff;
 }
 /* Upload data formatting
 –––––––––––––––––––––––––––––––––––––––––––––––––– */

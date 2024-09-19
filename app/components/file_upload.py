@@ -42,9 +42,10 @@ file_upload_widget = html.Span([
         dbc.RadioItems(
             id = "output-type", value = "srt", inline = True,
             options = [
-                {"label": "srt", "value": "srt"},
-                {"label": "doc", "value": "text"},
-                {"label": "json", "value": "json"} # what other formats are available?
+                {"label": "SRT", "value": "srt"},
+                {"label": "DOC (no timestamp)", "value": "text"},
+                # {"label": "XLSX", "value": "xlsx"},
+                # {"label": "JSON", "value": "json"} 
             # {"label": "xlsx", "value": "xlsx"} # do I want this?
         ]
         )

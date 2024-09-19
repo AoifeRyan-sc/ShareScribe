@@ -32,35 +32,34 @@ def parse_contents(action, contents, response_format):
     api_key = os.environ.get("OPENAI_API_KEY")
     client = openai.OpenAI(api_key = api_key)
 
+    # if response_format in ("xlsx", "json"):
+    #     api_response_format = "verbose_json"
+    #     kwargs = {"timestamp_granularities": ["segment"]}
+        
+    # else:
+        # api_response_format = response_format
+        # kwargs = {}
+
+    # print(api_response_format)
+
     api_output = getattr(client.audio, action).create(
         model="whisper-1", 
         file=file_like,
-        response_format= response_format,
-        # response_format="verbose_json", # might add option for this but creates problems with timestamps for translations
-        # timestamp_granularities=["segment"]
+        response_format = response_format
+        # response_format= api_response_format,
+        # **kwargs
     )
-    
-    # if I wanted to make a table ----
-    # results = []
-    # for i in range(len(api_output.segments)):
-    #     print(i)
-    #     df = pd.DataFrame({"start" : [api_output.segments[i]["start"]],
-    #                     "text" : [api_output.segments[i]["text"]]})
-    #     results.append(df)
-    #     # for key, value in transcript.segments[i].items():
-    # results = pd.concat(results)
-    # results.head()
+
+    # if response_format == "xlsx":
+    #     results = []
+    #     for i in range(len(api_output.segments)):
+    #         df = pd.DataFrame({"start" : [api_output.segments[i]["start"]],
+    #                         "text" : [api_output.segments[i]["text"]]})
+    #         results.append(df)
+
+    #     results = pd.concat(results)
+    #     api_output = results
+    #     print(type(results))
 
     return api_output
-# html.Div([
-        # html.H5(filename),
-        # html.H6(datetime.datetime.fromtimestamp(date)),
-        # html.H6(transcription.text),  # Display the transcription text
-        # html.H6(transcription.segments[1]),  # Display the transcription text
-     
-        # dash_table.DataTable(
-        # data=results.to_dict('records'),  # Convert DataFrame to list of dictionaries
-        # columns=[{"name": i, "id": i} for i in results.columns],  # Create columns metadata
-        # style_table={'overflowX': 'auto'},  # Optional styling
-    # ),
-    # ])
+
