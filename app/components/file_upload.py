@@ -84,6 +84,7 @@ def update_output(n_clicks, action, response_format, content, name):
         children = [
             parse_contents(action, content, response_format)
         ]
+        print(response_format)
         return False, None, dict(content=children, filename="".join({"transcript.", response_format})), 0
 
 @callback(
