@@ -85,7 +85,9 @@ def update_output(n_clicks, action, response_format, content, name):
             parse_contents(action, content, response_format)
         ]
         print(response_format)
-        return False, None, dict(content=children, filename="".join({"transcript.", response_format})), 0
+        download_title = "".join({"transcript.", response_format})
+        print(download_title)
+        return False, None, dict(content=children, filename=download_title), 0
 
 @callback(
     Output("loading-output", "children"),
