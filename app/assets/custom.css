@@ -1,3 +1,16 @@
+@font-face {
+    font-family: 'NeueHaasGroteskText Pro Md';
+    src: url('/assets/NeueHaasGroteskTextPro-Regular.ttf') format('ttf'),
+         url('/assets/NeueHaasGroteskTextPro-Bold.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'NeueHaasGroteskText Pro Md', "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+/* Button colours */
+/* –––––––––––––––––––––––––––––––––––––––––––––––––– */
 [class*="primary"] {
     color: #ffffff;
     background-color: #7800c6;
@@ -21,6 +34,9 @@
     background-color: #ffda7f; /* Change this to the desired hover color */
     border-color: #ffda7f;
 }
+
+/* Upload data formatting
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
 #upload-data a {
     color: #1EAEDB; 
     text-decoration: underline;
@@ -39,9 +55,3 @@
     border-radius: 5px;
     text-align: center;
 }
-/* [class*="primary"]:hover {
-    background-color: #bb7fe2!important;
-} */
-/* .spinner-border {
-    border-right-color: transparent!important;
-} */ */
