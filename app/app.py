@@ -4,6 +4,7 @@ from utils import parse_contents
 from components import colour_mode_switch, title_and_tooltip, file_upload_widget, footer
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME, '/assets/custom.css'])
+server = app.server
 # app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME])
 
 # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
