@@ -4,22 +4,6 @@ from utils import parse_contents, check_file
 from dash.exceptions import PreventUpdate
 
 title_and_tooltip = html.Span([
-    # dbc.Row([
-    #     dbc.Col(
-    #         html.H2(
-    #             "Share Audio Transcriber", id = "page-title", className="text-center mb-4"
-    #         ),
-    #         className="d-flex justify-content-center"
-    #     ),
-    #     dbc.Col([
-    #         dbc.Label(className="fa fa-circle-info", id = "title-tooltip", html_for="page-title"),
-    #         dbc.Tooltip("Currently only accepting m4a files (can export videos as 'audio only'), contact Data Science team to add compatible formats",
-    #                     id="tooltip",
-    #                     is_open=False,
-    #                     target="title-tooltip",
-    #                     placement = "right")
-    #     ], className="d-flex justify-content-center", width={"size": 6, "offset": 3})
-    # ])
     dbc.Row([
     dbc.Col([
         html.H2("Share Audio Transcriber", id="page-title", className="text-center mb-4 d-inline-block", style={"white-space": "nowrap"}),
@@ -70,29 +54,36 @@ file_upload_widget = html.Span([
     # dbc.Button("Download Transcript", id = "download-button", color="secondary", className="mt-3", n_clicks = 0),
 ])
 
+error_message = html.Span([dbc.Row(dbc.Col(
+    dcc.ConfirmDialog(
+        id='error-message', message = [], displayed = False)
+    ))])
 
 @callback(
-        Output('output-message', 'children'),
+        Output('error-message', 'displayed'),
+        Output('error-message', 'message'),
         Output("download-transcript", "data"),
+        Output("go-button", "n_clicks"),
         Input('go-button', 'n_clicks'),
-        Input('action-input', 'value'),
-        Input('output-type', 'value'),
-        Input('upload-data', 'contents'),
+        State('action-input', 'value'),
+        State('output-type', 'value'),
+        State('upload-data', 'contents'),
         State('upload-data', 'filename'),
         prevent_initial_call=True
         )
 def update_output(n_clicks, action, response_format, content, name):
 
     if content is not None and n_clicks > 0:
+        print("content not none")
         check_output = check_file(content, name)
 
         if type(check_output) == str:
-            return(check_output), None
+            return True, check_output, None, 0
         
         children = [
             parse_contents(action, content, response_format)
         ]
-        return None, dict(content=children, filename="".join({"transcript.", response_format}))
+        return False, None, dict(content=children, filename="".join({"transcript.", response_format})), 0
 
 @callback(
     Output("loading-output", "children"),
@@ -107,14 +98,9 @@ def show_upload_progress(contents, filename):
     
     return None, f"Uploaded file: {filename}"
 
-# @callback(
-#     Output("process-file-spinner", "children"),
-#     Input("go-button", "n_clicks"),
-#     State("upload-data", "filename"),
-#     prevent_initial_call=True
-# )
-# def show_upload_progress(contents, filename):
-#     if contents is None:
-#         raise PreventUpdate
-    
-#     return None, f"Uploaded file: {filename}"
+# @callback(Output('confirm-danger', 'displayed'),
+#           Input('dropdown-danger', 'value'))
+# def display_confirm(value):
+#     if value == 'Danger!!':
+#         return True
+#     return False

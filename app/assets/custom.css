@@ -23,6 +23,12 @@ body {
     background-color: #bb7fe2; /* Change this to the desired hover color */
     border-color: #bb7fe2;
 }
+/* Button active state (when clicked) */
+[class*="primary"]:active {
+    background-color: #a14adb!important; /* Set this to the color you want during the click */
+    border-color: #a14adb!important; /* Adjust as needed */
+}
+
 [class*="secondary"], input[type='radio'] {
     color: #ffffff;
     background-color: #ffb600;
@@ -34,7 +40,11 @@ body {
     background-color: #ffda7f; /* Change this to the desired hover color */
     border-color: #ffda7f;
 }
-
+/* Button active state (when clicked) */
+[class*="secondary"]:active {
+    background-color: #ffda7f; /* Set this to the color you want during the click */
+    border-color: #ffda7f; /* Adjust as needed */
+}
 /* Upload data formatting
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 #upload-data a {

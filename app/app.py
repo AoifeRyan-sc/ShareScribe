@@ -1,11 +1,11 @@
 from dash import Dash, Input, Output, State, html, callback
 import dash_bootstrap_components as dbc
 from utils import parse_contents
-from components import colour_mode_switch, title_and_tooltip, file_upload_widget, footer
+from components import colour_mode_switch, title_and_tooltip, file_upload_widget, footer, error_message
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME, '/assets/custom.css'])
 server = app.server
-# app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME])
+# app = Dash(__name__, external_stylesheets=[d bc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME])
 
 # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -24,8 +24,8 @@ app.layout = dbc.Container([
                     ), width={"size": 6, "offset": 0}), 
                 className="justify-content-center align-items-center h-100"
                 ),
+                error_message,
                 footer,
-                dbc.Row(dbc.Col(html.Div(id='output-message'))) # need to get this out of here
 ], style={"height": "80vh"})
 
 

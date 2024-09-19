@@ -10,7 +10,7 @@ import os
 
 def check_file(contents, filename):
     _, content_string = contents.split(',')
-    # print("".join(["parse contents :", action]))
+    print("checking size")
     decoded = base64.b64decode(content_string)
 
     max_size = 25 * 1024 * 1024 # limit set by openai until I implement chunking 
