@@ -4,3 +4,4 @@ io
 base64
 openai
 pandas
+os
