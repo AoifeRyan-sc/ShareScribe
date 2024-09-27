@@ -5,8 +5,8 @@ import openai
 import pandas as pd
 from dash import html, dash_table
 import os
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 def check_file(contents, filename):
     _, content_string = contents.split(',')
@@ -31,8 +31,8 @@ def parse_contents(action, contents, response_format):
     file_like = io.BytesIO(decoded)
     file_like.name = 'audio.m4a'
 
-    # api_key = os.getenv("OPENAI_API_KEY")
-    api_key = os.environ.get("OPENAI_API_KEY")
+    api_key = os.getenv("OPENAI_API_KEY")
+    # api_key = os.environ.get("OPENAI_API_KEY")
     
     client = openai.OpenAI(api_key = api_key)
 
