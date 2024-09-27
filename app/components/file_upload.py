@@ -154,7 +154,8 @@ def show_upload_progress(contents, file_state, filename):
 def download_file(n_clicks, response_format, processed_data, filename):
     
     if n_clicks > 0:
-        download_title = "".join([filename, response_format])
+        file_name = filename.split('.')[0].lower()
+        download_title = "".join([file_name,".", response_format])
         print(download_title)
         return dict(content=processed_data, filename=download_title)
 
