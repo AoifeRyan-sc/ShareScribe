@@ -1,6 +1,6 @@
 from dash import dcc, html, callback, Input, Output, State
 import dash_bootstrap_components as dbc
-from utils import parse_contents, check_file
+from utils import parse_contents, check_file, srt_to_docx
 from dash.exceptions import PreventUpdate
 
 title_and_tooltip = html.Span([
@@ -61,7 +61,7 @@ file_upload_widget = html.Span([
             id = "output-type", value = "srt", inline = True,
             options = [
                 {"label": "Subtitles", "value": "srt"},
-                {"label": "Document", "value": "doc"}
+                {"label": "Document", "value": "docx"}
         ]
         )
     ]),
@@ -157,6 +157,15 @@ def download_file(n_clicks, response_format, processed_data, filename):
         file_name = filename.split('.')[0].lower()
         download_title = "".join([file_name,".", response_format])
         print(download_title)
+
+        if response_format == "docx":
+            byte_stream = srt_to_docx(processed_data)
+            
+            return dcc.send_bytes(
+                byte_stream.getvalue(),
+                download_title
+            )
+        
         return dict(content=processed_data, filename=download_title)
 
 

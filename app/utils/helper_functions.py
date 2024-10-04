@@ -3,10 +3,15 @@ import io
 import base64
 import openai
 import pandas as pd
-from dash import html, dash_table
+# from dash import html, dash_table
 import os
-# from dotenv import load_dotenv
-# load_dotenv()
+from docx import Document
+from docx.shared import Pt, RGBColor
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+import re
+
+from dotenv import load_dotenv
+load_dotenv()
 
 def check_file(contents, filename):
     _, content_string = contents.split(',')
@@ -54,3 +59,37 @@ def parse_contents(action, contents, response_format):
 
     return api_output
 
+def srt_to_docx(srt_string):
+
+    doc = Document()
+
+    style = doc.styles['Normal']
+    style.font.name = 'Arial'
+    style.font.size = Pt(11)
+
+    entries = re.split(r'\n\n', srt_string.strip())
+
+    for entry in entries:
+        lines = entry.split('\n')
+        # if len(lines) >= 3:  # Ensure we have at least timestamp and text?
+        timestamp = lines[1]
+        text = ' '.join(lines[2:])
+
+        p = doc.add_paragraph()
+
+        timestamp_run = p.add_run(timestamp + " ")
+        timestamp_run.font.color.rgb = RGBColor(192, 192, 192)  # Light grey
+
+        # wrapped_text = textwrap.wrap(text, width=60)  # Adjust width as needed
+        p.add_run(lines[2])
+    
+    byte_stream = io.BytesIO()
+    doc.save(byte_stream)
+    byte_stream.seek(0)  
+
+        # for line in wrapped_text[1:]:
+            # p.add_run('\n' + ' ' * 8 + line)
+
+        # p.paragraph_format.space_after = Pt(6)  # Space after paragraph
+
+    return byte_stream
