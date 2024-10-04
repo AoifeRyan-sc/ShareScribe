@@ -3,5 +3,4 @@ dash==2.17.0
 dash_bootstrap_components
 openai
 pandas
-docx
-exceptions
+python-docx
