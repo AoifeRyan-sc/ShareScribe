@@ -1,14 +1,8 @@
-@font-face {
-    font-family: 'NeueHaasGroteskText Pro Md';
-    src: url('/assets/NeueHaasGroteskTextPro-Regular.ttf') format('ttf'),
-         url('/assets/NeueHaasGroteskTextPro-Bold.ttf') format('ttf');
-    font-weight: normal;
-    font-style: normal;
-}
+*{ 
+    font-family: Helvetica; /* need to use the "*" for this to work it seems
+  }
 
-body {
-    font-family: 'NeueHaasGroteskText Pro Md', "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-}
+
 /* Button colours */
 /* –––––––––––––––––––––––––––––––––––––––––––––––––– */
 [class*="primary"] {

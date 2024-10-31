@@ -3,7 +3,12 @@ import dash_bootstrap_components as dbc
 from utils import parse_contents
 from components import colour_mode_switch, title_and_tooltip, file_upload_widget, footer, error_message, register_footer_callbacks
 
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME, '/assets/custom.css'])
+external_stylesheets = [
+#    "https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap", # can use google fonts but helvetica not available
+   dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME
+]
+
+app = Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 # app = Dash(__name__, external_stylesheets=[d bc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME])
 
