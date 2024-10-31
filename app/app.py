@@ -1,7 +1,7 @@
 from dash import Dash, Input, Output, State, html, callback
 import dash_bootstrap_components as dbc
 from utils import parse_contents
-from components import colour_mode_switch, title_and_tooltip, file_upload_widget, footer, error_message
+from components import colour_mode_switch, title_and_tooltip, file_upload_widget, footer, error_message, register_footer_callbacks
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME, '/assets/custom.css'])
 server = app.server
@@ -28,7 +28,7 @@ app.layout = dbc.Container([
                 footer,
 ], style={"height": "80vh"})
 
-
+register_footer_callbacks(app)
 
 if __name__ == '__main__':
    app.server.run(port=8000, host='127.0.0.1', debug = True)

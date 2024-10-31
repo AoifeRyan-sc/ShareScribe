@@ -1,4 +1,4 @@
-from dash import Input, Output, html, clientside_callback
+from dash import dcc, Input, Output, html, clientside_callback
 import dash_bootstrap_components as dbc
 
 colour_mode_switch = html.Span(
@@ -19,8 +19,9 @@ colour_mode_callback = clientside_callback(
     (switchOn) => {
        document.documentElement.setAttribute("data-bs-theme", switchOn ? "light" : "dark"); 
        return window.dash_clientside.no_update
+       // return switchOn ? "light" : "dark";
     }
     """,
     Output("switch", "id"),
-    Input("switch", "value"),
+    Input("switch", "value")
 )
