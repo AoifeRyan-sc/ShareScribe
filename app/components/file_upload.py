@@ -51,7 +51,7 @@ file_upload_widget = html.Span([
     html.Div([
         html.Label("Select export format:", className = "mt-3"),
         dbc.RadioItems(
-            id = "output-type", value = "srt", inline = True,
+            id = "output-type", value = "doc", inline = True,
             options = [
                 {"label": "Document", "value": "doc"},
                 {"label": "Subtitles", "value": "srt"}
@@ -106,82 +106,50 @@ def file_check_callback(content, nclicks, name):
 
 @callback(
         Output("processed_file", "data"),
-        # Output("go-button", "n_clicks"),
         Output('processing-complete-modal', 'is_open'),
         Output('modal_message', 'children'),
         Input('go-button', 'n_clicks'),
         State('action-input', 'value'),
         State('output-type', 'value'),
         State('upload-data', 'contents'),
+        State('upload-data', 'filename'),
         prevent_initial_call=True
         )
-def update_output(n_clicks, action, response_format, content):
+def update_output(n_clicks, action, response_format, content, filename):
 
     if content is not None and n_clicks > 0:
-        print("update output function processing")
         
         processed_file =  parse_contents(action, content, response_format)
+        processed_dict = {"processed_file": processed_file,
+                          "processed_file_name": filename}
 
-        # return processed_file, 0, True, processed_file #, False, None
-        return processed_file, True, processed_file #, False, None
-    # return None, 0, False, None#, False, None
-    return None, False, None#, False, None
-
-# @callback(
-#         Output("processed_file", "data"),
-#         Input("upload-data", "filename"),
-#         State("stored-filename", "children"),
-#         # State("processed_file", "data"),
-#         prevent_initial_call=True
-# )
-# def update_file_state(current_filename, previous_filename):
-
-#     if (current_filename != previous_filename) & (previous_filename is not None):
-#         print("happening")
-#         update_file_state = None
-#         print(update_file_state)
-#         return update_file_state
-#         # return file_state
-
-#     # return None
-    
-#     # else:
-#     #     return None
-
+        return processed_dict, True, processed_file 
+    return None, False, None
 
 @callback(
     Output("loading-output", "children"),
     Output("upload-status", "children"),
-    Output("stored-filename", "data"),
-    # Output("stored-filename", "data"),
     Input("upload-data", "contents"),
     Input("processed_file", "data"),
     State("upload-data", "filename"),
-    State("stored-filename", "data"),    
     prevent_initial_call=True
 )
-def show_upload_progress(contents, file_state, filename, stored_name):
-    print(stored_name)
-    print(filename)
-
-    if (filename != stored_name) & (stored_name is None):
-        print("setting")
-        print(stored_name)
-        stored_name = filename
-        print(stored_name)
-
-    if (filename != stored_name) & (stored_name is not None):
-        stored_name = filename
-        print("resetting")
-        file_state = None
+def show_upload_progress(contents, file_state, filename):
 
     if file_state is not None:
-        return None, f"Processed file: {filename}, press Download button to save", stored_name
-    
+         processed_file_name = file_state["processed_file_name"]
+         print(processed_file_name)
+
+         if filename == processed_file_name:
+             return None, f"Processed file: {filename}, press Download button to save"
+
+         elif filename != processed_file_name:
+             return None, f"Uploaded file: {filename}"
+         
     elif contents is None:
         raise PreventUpdate
     
-    return None, f"Uploaded file: {filename}", stored_name
+    return None, f"Uploaded file: {filename}"
 
 @callback(
     Output("download-transcript", "data"),
@@ -211,34 +179,14 @@ def download_file(n_clicks, response_format, processed_data, filename):
 @callback(
     Output('download-button', 'style'),
     Input('processed_file', 'data'),
+    Input('upload-data', 'filename')
 )
-def show_download_button(processed_file):
+def show_download_button(processed_file, filename):
+    
     if processed_file is not None:
-        return {'display': 'inline-block'}  # Make button visible
+        processed_file_name = processed_file["processed_file_name"]
+        if processed_file_name == filename:
+            return {'display': 'inline-block'}  # Make button visible
+  
     return {'display': 'none'} 
 
-
-# @callback(
-#     Output('download-button', 'children'),
-#     Output('current-filename', 'children'),
-#     Input('upload-data', 'contents'),
-#     Input('upload-data', 'filename'),
-#     Input('processed_file', 'children'),
-#     State('current-filename', 'data'),
-#     prevent_initial_call=True
-# )
-# def download_button_visibility(contents, new_filename, processed_file, stored_filename):
-
-#      if processed_file is not None:
-#         return {'display': 'inline-block'}  # Make button visible
-#     return {'display': 'none'} 
-
-
-#     if contents is None:
-#         return {'display': 'none'}, None
-    
-#     if new_filename != stored_filename: # If filename changed, hide button
-#         return {'display': 'none'}, new_filename
-    
-#     # Otherwise, keep button visible
-#     return {'display': 'none'}, new_filename
