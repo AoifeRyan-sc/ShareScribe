@@ -51,9 +51,9 @@ file_upload_widget = html.Span([
     html.Div([
         html.Label("Select export format:", className = "mt-3"),
         dbc.RadioItems(
-            id = "output-type", value = "doc", inline = True,
+            id = "output-type", value = "docx", inline = True,
             options = [
-                {"label": "Document", "value": "doc"},
+                {"label": "Document", "value": "docx"},
                 {"label": "Subtitles", "value": "srt"}
         ]
         )
@@ -159,8 +159,8 @@ def show_upload_progress(contents, file_state, filename):
     State("upload-data", "filename"),    
 )
 def download_file(n_clicks, response_format, processed_data, filename):
-    
     if n_clicks > 0:
+        processed_data = processed_data["processed_file"]
         file_name = filename.split('.')[0].lower()
         download_title = "".join([file_name,".", response_format])
         print(download_title)
