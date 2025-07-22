@@ -33,6 +33,7 @@ def register_all_callbacks(app):
             Output("processed_file", "data"),
             Output('processing-complete-modal', 'is_open'),
             Output('modal_message', 'children'),
+            Output('modal_message_test', 'children'),
             Input('go-button', 'n_clicks'),
             State('action-input', 'value'),
             State('output-type', 'value'),
@@ -43,13 +44,14 @@ def register_all_callbacks(app):
     def update_output(n_clicks, action, response_format, content, filename):
 
         if content is not None and n_clicks > 0:
+
             
             processed_file =  parse_contents(action, content, response_format)
             processed_dict = {"processed_file": processed_file,
                             "processed_file_name": filename}
 
-            return processed_dict, True, processed_file 
-        return None, False, None
+            return processed_dict, True, processed_file, processed_file
+        return None, False, None, None
 
     @app.callback(
         Output("loading-output", "children"),
@@ -103,6 +105,7 @@ def register_all_callbacks(app):
 
     @app.callback(
         Output('download-button', 'style'),
+        Output("display-col", "style"),
         Input('processed_file', 'data'),
         Input('upload-data', 'filename')
     )
@@ -111,7 +114,8 @@ def register_all_callbacks(app):
         if processed_file is not None:
             processed_file_name = processed_file["processed_file_name"]
             if processed_file_name == filename:
-                return {'display': 'inline-block'}  # Make button visible
+                return {'display': 'inline-block'}, {'display': 'inline-block'}  # Make button visible
     
-        return {'display': 'none'} 
+        return {'display': 'none'}, {'display': 'none'}
+        # return {'display': 'inline-block'}, {'display': 'inline-block'}  # Make button visible 
 
