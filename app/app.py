@@ -1,7 +1,7 @@
 from dash import Dash, Input, Output, State, html, callback
 import dash_bootstrap_components as dbc
 from utils import parse_contents
-from components import colour_mode_switch, title_and_tooltip, file_upload_widget, footer, error_message, register_footer_callbacks
+from components import colour_mode_switch, title_and_tooltip, file_upload_widget, footer, error_message, register_footer_callbacks, register_all_callbacks
 
 external_stylesheets = [
 #    "https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap", # can use google fonts but helvetica not available
@@ -33,6 +33,7 @@ app.layout = dbc.Container([
                 footer,
 ], style={"height": "80vh"})
 
+register_all_callbacks(app)
 register_footer_callbacks(app)
 
 if __name__ == '__main__':
