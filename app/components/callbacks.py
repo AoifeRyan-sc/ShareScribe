@@ -1,4 +1,4 @@
-from dash import callback, Input, Output, State
+from dash import callback, Input, Output, State, html
 from utils import parse_contents, check_file, srt_to_docx
 from dash.exceptions import PreventUpdate
 
@@ -31,7 +31,7 @@ def register_all_callbacks(app):
 
     @app.callback(
             Output("processed_file", "data"),
-            Output('modal_message_test', 'children'),
+            Output('api_output_text', 'children'),
             Input('go-button', 'n_clicks'),
             State('action-input', 'value'),
             State('output-type', 'value'),
@@ -47,6 +47,9 @@ def register_all_callbacks(app):
             processed_file =  parse_contents(action, content, response_format)
             processed_dict = {"processed_file": processed_file,
                             "processed_file_name": filename}
+            # print(processed_file)
+            # return_message = ([html.Span(line), html.Br()] for line in processed_file.split('\n'))
+            # print(return_message)
 
             return processed_dict, processed_file
         return None, None
