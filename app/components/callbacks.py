@@ -31,8 +31,6 @@ def register_all_callbacks(app):
 
     @app.callback(
             Output("processed_file", "data"),
-            Output('processing-complete-modal', 'is_open'),
-            Output('modal_message', 'children'),
             Output('modal_message_test', 'children'),
             Input('go-button', 'n_clicks'),
             State('action-input', 'value'),
@@ -50,8 +48,8 @@ def register_all_callbacks(app):
             processed_dict = {"processed_file": processed_file,
                             "processed_file_name": filename}
 
-            return processed_dict, True, processed_file, processed_file
-        return None, False, None, None
+            return processed_dict, processed_file
+        return None, None
 
     @app.callback(
         Output("loading-output", "children"),

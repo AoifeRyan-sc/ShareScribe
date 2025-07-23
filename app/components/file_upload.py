@@ -58,16 +58,7 @@ file_upload_widget = html.Span([
         )
     ]),
     buttons_and_tooltip,
-    dcc.Download(id="download-transcript"),
-     dbc.Modal(
-        [
-            dbc.ModalHeader("Processing Complete"),
-            dbc.ModalBody(html.Div(id = "modal_message")),
-        ],
-        size="xl",
-        id="processing-complete-modal",
-        is_open=False,
-    ),
+    dcc.Download(id="download-transcript")
 ])
 
 error_message = html.Span([dbc.Row(dbc.Col(
