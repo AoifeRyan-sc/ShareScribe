@@ -1,8 +1,7 @@
+#ds_store
+.DS_Store
+working_docs/
+.venv/
+.python-version
 .env
 __pycache__/
-venv/
-working_docs/  
-.python-version
-.DS_Store
-pyproject.toml
-uv.lock
