@@ -1,4 +1,4 @@
-from dash import callback, Input, Output, State, html
+from dash import dcc, callback, Input, Output, State, html
 from utils import parse_contents, check_file, srt_to_docx
 from dash.exceptions import PreventUpdate
 
@@ -87,7 +87,9 @@ def register_all_callbacks(app):
         State("upload-data", "filename"),    
     )
     def download_file(n_clicks, response_format, processed_data, filename):
+        print("download triggered")
         if n_clicks > 0:
+            print("nclicks > 0")
             processed_data = processed_data["processed_file"]
             file_name = filename.split('.')[0].lower()
             download_title = "".join([file_name,".", response_format])
@@ -105,21 +107,17 @@ def register_all_callbacks(app):
 
 
     @app.callback(
-        Output('download-button', 'style'),
+        # Output('download-button', 'style'),
         Output("display-col", "style"),
-        Output("download-button-test", "style"),
         Input('processed_file', 'data'),
         Input('upload-data', 'filename')
     )
     def show_download_button(processed_file, filename):
         
         if processed_file is not None:
-            processed_file_name = processed_file["processed_file_name"]
-            if processed_file_name == filename:
-                # return {'display': 'inline-block'}, {'display': 'inline-block'}, {'display': 'inline-block'}  # Make button visible
-                return ({'display': 'inline-block'},) * 3
+            # processed_file_name = processed_file["processed_file_name"]
+            # if processed_file_name == filename:
+            return {'display': 'inline-block'}
     
-        # return {'display': 'none'}, {'display': 'none'}
-            return ({'display': 'none'},) * 3
-        # return {'display': 'inline-block'}, {'display': 'inline-block'}  # Make button visible 
-
+        return {'display': 'none'}
+        # return {'display': 'inline-block'}

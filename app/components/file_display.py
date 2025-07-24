@@ -3,28 +3,42 @@ import dash_bootstrap_components as dbc
 
 output_card = html.Span([
     html.H2("Transcription Output"),
-    # html.H5("50% width card", className="card-title"),
-    html.P(
-        id = "api_output_text",
-        className="card-text",
-        children = "this is a test",
-        style={'whiteSpace': 'pre-wrap'}
-    )
+    html.Div(
+        html.P(
+            id = "api_output_text",
+            className="card-text",
+            children = "this is a test",
+            style={
+                'height': '280px',
+                'overflow-y': 'auto',
+                'padding-right': '50px'  # Space for button
+            }
+        ),
+            style={'whiteSpace': 'pre-wrap'}
+        )
+    # )
 ])
 
-download_button_test = html.Span(
+download_button = html.Span(
     dbc.Button(
         "Download Output",
-        id="download-button-test",
+        id="download-button",
         color="secondary", 
-        className="mt-3", 
+        # className="justify-content-right align-items-center h-100",
+        # className="mt-3", 
+        # className="ms-auto",
         n_clicks = 0, 
         style={
-            "display": "none",
-            "position": "absolute",
-            "bottom": "230px",
-            "right": "80px",
-            "z-index": "10"
-        }
+                'position': 'absolute',
+                'bottom': '10px',
+                'right': '10px',
+                'z-index': '1000'
+            }
+        # style={
+            # "position": "absolute",
+            # "bottom": "230px",
+            # "right": "500px"
+            # "z-index": "10"
+        # }
     )
 )

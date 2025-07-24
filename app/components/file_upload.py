@@ -22,7 +22,7 @@ buttons_and_tooltip = html.Span([
     dbc.Row([
     dbc.Col([
         dbc.Button("Process Audio", id = "go-button", color="primary", className="mt-3", n_clicks = 0, style={"font-weight": "normal"}),
-        dbc.Button("Download Output", id = "download-button", color="secondary", className="mt-3", n_clicks = 0, style={'display': 'none'}),
+        # dbc.Button("Download Output", id = "download-button", color="secondary", className="mt-3", n_clicks = 0, style={'display': 'none'}),
     ], className="d-flex justify-content-center align-items-center", 
     # width={"size": 6, "offset": 3}
     )
