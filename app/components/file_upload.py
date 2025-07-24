@@ -22,9 +22,7 @@ buttons_and_tooltip = html.Span([
     dbc.Row([
     dbc.Col([
         dbc.Button("Process Audio", id = "go-button", color="primary", className="mt-3", n_clicks = 0, style={"font-weight": "normal"}),
-        # dbc.Button("Download Output", id = "download-button", color="secondary", className="mt-3", n_clicks = 0, style={'display': 'none'}),
     ], className="d-flex justify-content-center align-items-center", 
-    # width={"size": 6, "offset": 3}
     )
 ])
 ])
@@ -58,7 +56,7 @@ file_upload_widget = html.Span([
         )
     ]),
     buttons_and_tooltip,
-    dcc.Download(id="download-transcript")
+    dcc.Download(id="download-transcript") # should probably move the location of this
 ])
 
 error_message = html.Span([dbc.Row(dbc.Col(
