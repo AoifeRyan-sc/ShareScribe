@@ -24,9 +24,6 @@ download_button = html.Span(
         "Download Output",
         id="download-button",
         color="secondary", 
-        # className="justify-content-right align-items-center h-100",
-        # className="mt-3", 
-        # className="ms-auto",
         n_clicks = 0, 
         style={
                 'position': 'absolute',
@@ -34,11 +31,5 @@ download_button = html.Span(
                 'right': '10px',
                 'z-index': '1000'
             }
-        # style={
-            # "position": "absolute",
-            # "bottom": "230px",
-            # "right": "500px"
-            # "z-index": "10"
-        # }
     )
 )

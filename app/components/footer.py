@@ -5,15 +5,27 @@ from components import colour_mode_switch, colour_mode_callback
 footer = html.Span([
      html.Hr(),
     # html.Br(),
-                dbc.Row(dbc.Col(html.Img(id = "footer-logo",
-                                         src="./assets/SAMY_onwhite.png",
-                                         style={
-                                            'width': '100%',
-                                            'height': '100%',
-                                            'margin-top': '10px'
-                                            # 'margin': '10px'
-                                        }),
-                                width = {'size': 2}, align = "end"), justify = "end"),
+                dbc.Row(
+                   [
+                    dbc.Col(
+                        html.P("Email aoife.ryan@samy.com for requests",
+                               style = {"margin-top": "-10px"})
+                    ), 
+                    dbc.Col(
+                        html.Img(
+                            id = "footer-logo",
+                            src="./assets/SAMY_onwhite.png",
+                            style={
+                                'width': '100%',
+                                'height': '100%',
+                                'margin-top': '10px'
+                            }
+                        ),
+                        width = {'size': 2}, 
+                    ), 
+
+                   ]
+                ),
 ])
 
 # making this a function that can be called in app.py and access 

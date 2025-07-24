@@ -8,7 +8,7 @@ title_and_tooltip = html.Span([
         html.H2("SAMY Audio Transcriber", id="page-title", className="text-center mb-4 d-inline-block", style={"white-space": "nowrap"}),
         dbc.Label(className="fa fa-circle-info ms-2 d-inline-block", id="title-tooltip", html_for="page-title", style={"position": "relative", "top": "-1mm", 'color': '#1C7E75'}),
         dbc.Tooltip(
-            "Currently only accepting .wav, .mp4, and .m4a files, contact the Data Science team to add to compatible formats. If you have a video file you would like to transcribe, you can export as `audio only` from QuickTime (and other apps).",
+            "Currently only accepting .wav, .mp3, and .m4a files, contact the Data Science team to add to compatible formats. If you have a video file you would like to transcribe, you can export as `audio only` from QuickTime (and other apps).",
             id="title-tooltip-hover",
             is_open=False,
             target="title-tooltip",
@@ -50,8 +50,8 @@ file_upload_widget = html.Span([
         dbc.RadioItems(
             id = "output-type", value = "docx", inline = True,
             options = [
-                {"label": "Document", "value": "docx"},
-                {"label": "Subtitles", "value": "srt"}
+                {"label": "Document (.docx)", "value": "docx"},
+                {"label": "Subtitles (.srt)", "value": "srt"}
         ]
         )
     ]),
