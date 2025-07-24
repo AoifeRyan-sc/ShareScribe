@@ -11,3 +11,20 @@ output_card = html.Span([
         style={'whiteSpace': 'pre-wrap'}
     )
 ])
+
+download_button_test = html.Span(
+    dbc.Button(
+        "Download Output",
+        id="download-button-test",
+        color="secondary", 
+        className="mt-3", 
+        n_clicks = 0, 
+        style={
+            "display": "none",
+            "position": "absolute",
+            "bottom": "230px",
+            "right": "80px",
+            "z-index": "10"
+        }
+    )
+)

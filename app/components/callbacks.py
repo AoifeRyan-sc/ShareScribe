@@ -107,6 +107,7 @@ def register_all_callbacks(app):
     @app.callback(
         Output('download-button', 'style'),
         Output("display-col", "style"),
+        Output("download-button-test", "style"),
         Input('processed_file', 'data'),
         Input('upload-data', 'filename')
     )
@@ -115,8 +116,10 @@ def register_all_callbacks(app):
         if processed_file is not None:
             processed_file_name = processed_file["processed_file_name"]
             if processed_file_name == filename:
-                return {'display': 'inline-block'}, {'display': 'inline-block'}  # Make button visible
+                # return {'display': 'inline-block'}, {'display': 'inline-block'}, {'display': 'inline-block'}  # Make button visible
+                return ({'display': 'inline-block'},) * 3
     
-        return {'display': 'none'}, {'display': 'none'}
+        # return {'display': 'none'}, {'display': 'none'}
+            return ({'display': 'none'},) * 3
         # return {'display': 'inline-block'}, {'display': 'inline-block'}  # Make button visible 
 
