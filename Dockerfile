@@ -7,4 +7,4 @@ RUN pip install -r ./requirements.txt
 #Copy files to your container
 COPY app/ ./
 #Running your APP and doing some PORT Forwarding
-CMD gunicorn -b 0.0.0.0:80 app:server
+CMD gunicorn -b 0.0.0.0:80 test_sanyscribe_app:server
