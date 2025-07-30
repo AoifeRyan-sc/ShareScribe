@@ -121,3 +121,16 @@ def register_all_callbacks(app):
     
         return {'display': 'none'}
         # return {'display': 'inline-block'}
+
+    @app.callback(
+        Output("select-language", "style"),
+        Input("action-input", "value")
+    )
+    def show_language_select(api_action):
+        print("lang")
+        
+        if api_action == "translations":
+            print("if statement activated")
+            return {'display': 'inline-block'}
+        
+        return {'display': "None"}

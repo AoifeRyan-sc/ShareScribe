@@ -1,5 +1,6 @@
 from dash import dcc, html
 import dash_bootstrap_components as dbc
+from utils import language_codes
 
 
 title_and_tooltip = html.Span([
@@ -27,6 +28,19 @@ buttons_and_tooltip = html.Span([
 ])
 ])
 
+
+language_selection = html.Span([
+    dbc.Select(
+        language_codes,
+        id = "language-dropdown",
+        size = "lg",
+        name = "Translating to:"
+    )
+],
+id = "select-language",
+style={"display": "None"}
+)
+
 file_upload_widget = html.Span([
     dcc.Upload(
         ['Drag-and-Drop or ', html.A('Select Files')],
@@ -45,6 +59,7 @@ file_upload_widget = html.Span([
             {"label": "Transcribe & Translate", "value": "translations"}
         ]
     ),
+    language_selection,
     html.Div([
         html.Label("Select export format:", className = "mt-3"),
         dbc.RadioItems(
