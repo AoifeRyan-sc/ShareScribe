@@ -8,7 +8,7 @@ RUN pip install -r ./requirements.txt
 COPY app/ ./
 #Running your APP and doing some PORT Forwarding
 # CMD gunicorn -b 0.0.0.0:8000 app:server
-CMD ["gunicorn", "app:server", "--bind", "0.0.0.0:8000", "--timeout", "60", "--keep-alive", "60"]
+CMD ["gunicorn", "app:server", "--bind", "0.0.0.0:8000", "--timeout", "120", "--keep-alive", "120"]
 
 
 
