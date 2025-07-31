@@ -7,4 +7,8 @@ RUN pip install -r ./requirements.txt
 #Copy files to your container
 COPY app/ ./
 #Running your APP and doing some PORT Forwarding
-CMD gunicorn -b 0.0.0.0:8000 app:server
+# CMD gunicorn -b 0.0.0.0:8000 app:server
+CMD ["gunicorn", "app:server", "--bind", "0.0.0.0:$PORT", "--timeout", "60", "--keep-alive", "60"]
+
+
+
