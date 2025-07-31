@@ -48,6 +48,7 @@ file_upload_widget = html.Span([
         multiple = False
     ),
     dcc.Store(id = "stored-filename"),
+    html.Div(id='spinner-fast-trigger', style={'display': 'none'}), # this is to make the file upload spinner appear immediately
     dbc.Spinner(html.Div(id = "loading-output")),
     html.Div(id = "upload-status", style={"margin-top": "20px", "margin-bottom": "20px", "height": "20px"}),
     dbc.Spinner(dcc.Store("processed_file"), spinner_style= {'border-color': '#1C7E75', 'border-right-color': 'transparent'}),
