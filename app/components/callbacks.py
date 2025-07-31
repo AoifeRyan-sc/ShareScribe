@@ -1,4 +1,4 @@
-from dash import dcc, callback, Input, Output, State, html
+from dash import dcc, callback, Input, Output, State, html, no_update
 from utils import parse_contents, check_file, srt_to_docx
 from dash.exceptions import PreventUpdate
 
@@ -47,15 +47,11 @@ def register_all_callbacks(app):
             processed_file =  parse_contents(action, content, response_format)
             processed_dict = {"processed_file": processed_file,
                             "processed_file_name": filename}
-            # print(processed_file)
-            # return_message = ([html.Span(line), html.Br()] for line in processed_file.split('\n'))
-            # print(return_message)
 
             return processed_dict, processed_file
         return None, None
 
     @app.callback(
-        Output("loading-output", "children"),
         Output("upload-status", "children"),
         Input("upload-data", "contents"),
         Input("processed_file", "data"),
@@ -69,15 +65,15 @@ def register_all_callbacks(app):
             print(processed_file_name)
 
             if filename == processed_file_name:
-                return None, f"Processed file: {filename}, press Download button to save"
+                return f"Processed file: {filename}, press Download button to save"
 
             elif filename != processed_file_name:
-                return None, f"Uploaded file: {filename}"
+                return f"Uploaded file: {filename}"
             
         elif contents is None:
             raise PreventUpdate
         
-        return None, f"Uploaded file: {filename}"
+        return f"Uploaded file: {filename}"
 
     @app.callback(
         Output("download-transcript", "data"),
@@ -121,3 +117,27 @@ def register_all_callbacks(app):
     
         return {'display': 'none'}
         # return {'display': 'inline-block'}
+
+    @app.callback(
+        Output("select-language", "style"),
+        Input("action-input", "value")
+    )
+    def show_language_select(api_action):
+        print("lang")
+        
+        if api_action == "translations":
+            print("if statement activated")
+            return {'display': 'inline-block'}
+        
+        return {'display': "None"}
+
+
+    @app.callback(
+        Output('spinner-fast-trigger', 'children'), # This is the output the spinner will "see" activate first
+        Input('go-button', 'n_clicks'),
+        prevent_initial_call=True
+    )
+    def trigger_spinner_immediately(n_clicks):
+        if n_clicks is None:
+            raise no_update
+        return ""

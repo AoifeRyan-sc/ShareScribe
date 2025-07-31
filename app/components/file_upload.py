@@ -1,5 +1,6 @@
 from dash import dcc, html
 import dash_bootstrap_components as dbc
+from utils import language_codes
 
 
 title_and_tooltip = html.Span([
@@ -27,6 +28,19 @@ buttons_and_tooltip = html.Span([
 ])
 ])
 
+
+language_selection = html.Span([
+    dbc.Select(
+        language_codes,
+        id = "language-dropdown",
+        size = "lg",
+        name = "Translating to:"
+    )
+],
+id = "select-language",
+style={"display": "None"}
+)
+
 file_upload_widget = html.Span([
     dcc.Upload(
         ['Drag-and-Drop or ', html.A('Select Files')],
@@ -34,6 +48,7 @@ file_upload_widget = html.Span([
         multiple = False
     ),
     dcc.Store(id = "stored-filename"),
+    html.Div(id='spinner-fast-trigger', style={'display': 'none'}), # this is to make the file upload spinner appear immediately
     dbc.Spinner(html.Div(id = "loading-output")),
     html.Div(id = "upload-status", style={"margin-top": "20px", "margin-bottom": "20px", "height": "20px"}),
     dbc.Spinner(dcc.Store("processed_file"), spinner_style= {'border-color': '#1C7E75', 'border-right-color': 'transparent'}),
@@ -45,6 +60,7 @@ file_upload_widget = html.Span([
             {"label": "Transcribe & Translate", "value": "translations"}
         ]
     ),
+    language_selection,
     html.Div([
         html.Label("Select export format:", className = "mt-3"),
         dbc.RadioItems(

@@ -1,7 +1,10 @@
 gunicorn==19.7.1
 dash==2.17.0
+numpy<2.0.0
 dash_bootstrap_components
 openai
 pandas
 python-docx
 langcodes
+ipykernel
+pycountry
