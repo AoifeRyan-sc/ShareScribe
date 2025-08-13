@@ -28,17 +28,35 @@ buttons_and_tooltip = html.Span([
 ])
 ])
 
-
-language_selection = html.Span([
-    dbc.Select(
-        language_codes,
-        id = "language-dropdown",
-        size = "lg",
-        name = "Translating to:"
+word_exclusions = html.Span([
+    dcc.Input(
+    id = "no_translate_words",
+    placeholder = "SAMY UK, McLaren, Diageo...",
+    style = {'width': '100%'}
     )
 ],
+id = "word-exclusions",
+style={'display': 'none'}
+)
+
+language_selection = html.Span([
+    dcc.Dropdown(
+        options = language_codes,
+        value = "",
+        placeholder = "Translate from..",
+        id = "translate-from-dropdown",
+        style = {'flex-grow': '1'}
+    ),
+    dcc.Dropdown(
+        options = language_codes,
+        value = "",
+        placeholder = "Translate to..",
+        id = "translate-to-dropdown",
+        style = {'flex-grow': '1'}
+    ),
+],
 id = "select-language",
-style={"display": "None"}
+style={'display': 'none'}
 )
 
 file_upload_widget = html.Span([
@@ -61,6 +79,7 @@ file_upload_widget = html.Span([
         ]
     ),
     language_selection,
+    word_exclusions,
     html.Div([
         html.Label("Select export format:", className = "mt-3"),
         dbc.RadioItems(

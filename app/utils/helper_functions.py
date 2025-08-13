@@ -59,6 +59,24 @@ def parse_contents(action, contents, response_format):
 
     return api_output
 
+def translate_transcription(parsed_file, language_to, language_from, words):
+
+    transcribed_text = parsed_file
+
+    pattern = r', ?'
+
+    words_split = re.split(pattern, words)
+    words_list = [no_translation] + words_split
+    words_quote_list = [f"'{word}'" for word in words_list]
+    ", ".join(words_quote_list)
+
+    spanish_response_srt = client.responses.create(
+        model="gpt-4.1-mini",
+        input=f"Below is an srt with {language_from} text. Translate it to an srt in {language_to}. Don't translate words that don't have a {language_to} translation, some examples are: {words_not_for_translation}. \n\n {transcription_srt}"
+    )
+
+
+
 def srt_to_docx(srt_string):
 
     doc = Document()

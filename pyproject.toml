@@ -7,11 +7,14 @@ requires-python = ">=3.11"
 dependencies = [
     "dash==2.17.0",
     "dash-bootstrap-components>=1.7.1",
+    "dotenv>=0.9.9",
     "gunicorn==19.7.1",
+    "ipykernel>=6.30.0",
     "langcodes>=3.5.0",
     "numpy==1.26.4",
     "openai>=1.98.0",
     "pandas>=2.3.1",
+    "pexpect>=4.9.0",
     "pycountry>=24.6.1",
     "python-docx>=1.2.0",
 ]

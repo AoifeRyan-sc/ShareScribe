@@ -34,21 +34,32 @@ def register_all_callbacks(app):
             Output('api_output_text', 'children'),
             Input('go-button', 'n_clicks'),
             State('action-input', 'value'),
+            State('translate-to-dropdown', 'value'),
             State('output-type', 'value'),
             State('upload-data', 'contents'),
             State('upload-data', 'filename'),
             prevent_initial_call=True
             )
-    def update_output(n_clicks, action, response_format, content, filename):
+    def update_output(n_clicks, action, translate_to, response_format, content, filename):
 
         if content is not None and n_clicks > 0:
 
+            # if action == "translations" & translate_to != "en":
+            #     # overriding action to transcribe text before using gpt to translate
+            #     transcribed_file =  parse_contents("transcriptions", content, response_format) 
+            #     processed_file = translate_transcription(transcribed_file, translate_to)
+            #     processed_dict = {"processed_file": processed_file,
+            #                     "processed_file_name": filename}
+                
+            #     return processed_dict, processed_file
             
+            # else:    
             processed_file =  parse_contents(action, content, response_format)
             processed_dict = {"processed_file": processed_file,
                             "processed_file_name": filename}
 
             return processed_dict, processed_file
+            
         return None, None
 
     @app.callback(
@@ -120,16 +131,24 @@ def register_all_callbacks(app):
 
     @app.callback(
         Output("select-language", "style"),
+        Output("word-exclusions", "style"),
         Input("action-input", "value")
     )
     def show_language_select(api_action):
         print("lang")
         
         if api_action == "translations":
-            print("if statement activated")
-            return {'display': 'inline-block'}
+            dropdown_style = {
+                'width': '100%', 
+                'display': 'flex',
+                'fontSize': '16px', 
+                'paddingTop': '10px',
+                'gap': '10px'
+                }
+            text_input_style = {'display': 'inline-block', 'width': '100%', 'paddingTop': '10px',}
+            return dropdown_style, text_input_style
         
-        return {'display': "None"}
+        return {'display': "none"}
 
 
     @app.callback(
