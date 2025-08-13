@@ -15,42 +15,44 @@ server = app.server
 app.layout = dbc.Container([
     dbc.Row(dbc.Col(cp.colour_mode_switch, width = 2, align = "end"), justify = "start"),
     dbc.Row(
-        [
-           dbc.Col(
-            dbc.Card(
-                dbc.CardBody(
-                    [
-                        cp.title_and_tooltip,
-                        cp.file_upload_widget
-                    ]
-                ),
-                id = "upload-card",
-                className = "mt-5",
-                style = {"height": "400px"}
-            ),
-            width={"size": 6, "offset": 0}
-            ),
-            dbc.Col(
+    [
+        dbc.Col(
+        dbc.Card(
+            dbc.CardBody(
                 [
-                   dbc.Card(
-                        [
-                           dbc.CardBody(
-                            cp.output_card
-                            ),
-                            cp.download_button
-                        ],
-                        id = "display-card",
-                        className = "mt-5",
-                        style={'height': '400px', "overflowY": "scroll"}
-                    ),
-                ],
-                # style = {'display': 'inline-block', 'position': 'relative'},
-                style = {"display": None, 'position': 'relative'},
-                id = "display-col",
-            )
-        ],
-        className="justify-content-center align-items-center h-100"
+                    cp.title_and_tooltip,
+                    cp.file_upload_widget
+                ]
+            ),
+            id = "upload-card",
+            className = "mt-5",
+            # style = {"height": "400px"}
         ),
+        width={"size": 6, "offset": 0}
+        ),
+        dbc.Col(
+            [
+                dbc.Card(
+                    [
+                        dbc.CardBody(
+                        cp.output_card
+                        ),
+                        cp.download_button
+                    ],
+                    id = "display-card",
+                    className = "mt-5",
+                    style={'height': '400px', "overflowY": "scroll"}
+                ),
+            ],
+            # style = {'display': 'inline-block', 'position': 'relative'},
+            style = {"display": None, 'position': 'relative'},
+            id = "display-col",
+        )
+    ],
+    className="justify-content-center align-items-center h-100",
+    # style = {"display": "flex", "flex-flow": "row wrap"}
+    # className="justify-content-center align-items-center h-100 align-items-stretch"
+    ),
         cp.error_message,
         cp.footer,
     ], style={"height": "80vh"})
@@ -62,5 +64,3 @@ if __name__ == '__main__':
    app.server.run(port=8000, host='127.0.0.1', debug = True)
 
 
-x = 4
-x + 6
