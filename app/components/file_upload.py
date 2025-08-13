@@ -1,6 +1,6 @@
 from dash import dcc, html
 import dash_bootstrap_components as dbc
-from utils import language_codes, info_popover
+from utils import language_codes, info_popover, language_selection_dropdown
 
 
 title_and_tooltip = html.Span([
@@ -34,20 +34,8 @@ style={'display': 'none'}
 )
 
 language_selection = html.Span([
-    dcc.Dropdown(
-        options = language_codes,
-        value = "",
-        placeholder = "Translate from..",
-        id = "translate-from-dropdown",
-        style = {'flex-grow': '1'}
-    ),
-    dcc.Dropdown(
-        options = language_codes,
-        value = "",
-        placeholder = "Translate to..",
-        id = "translate-to-dropdown",
-        style = {'flex-grow': '1'}
-    ),
+    language_selection_dropdown(id = "translate-from-dropdown", label = "Translate from..."),
+    language_selection_dropdown(id = "translate-to-dropdown", label = "Translate to...")
 ],
 id = "select-language",
 style={'display': 'none'}

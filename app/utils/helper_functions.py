@@ -3,14 +3,14 @@ import io
 import base64
 import openai
 import pandas as pd
-# from dash import html, dash_table
+from .supported_languages import language_codes
 import os
 from docx import Document
 from docx.shared import Pt, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 import re
 import dash_bootstrap_components as dbc
-from dash import html
+from dash import html, dcc
 
 # from dotenv import load_dotenv
 # load_dotenv()
@@ -133,3 +133,15 @@ def info_popover(text_id, icon_id, popover_text):
     ])
    
    return pop
+
+def language_selection_dropdown(id, label):
+
+    dd = dcc.Dropdown(
+            options = language_codes,
+            value = "",
+            placeholder = label,
+            id = id,
+            style = {'flex-grow': '1'}
+        )
+    
+    return dd
