@@ -148,7 +148,7 @@ def register_all_callbacks(app):
             text_input_style = {'display': 'inline-block', 'width': '100%', 'paddingTop': '10px',}
             return dropdown_style, text_input_style
         
-        return {'display': "none"}
+        return {'display': "none"}, {'display': 'none'}
 
 
     @app.callback(

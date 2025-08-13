@@ -9,6 +9,8 @@ from docx import Document
 from docx.shared import Pt, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 import re
+import dash_bootstrap_components as dbc
+from dash import html
 
 # from dotenv import load_dotenv
 # load_dotenv()
@@ -111,3 +113,23 @@ def srt_to_docx(srt_string):
         # p.paragraph_format.space_after = Pt(6)  # Space after paragraph
 
     return byte_stream
+
+
+def info_popover(text_id, icon_id, popover_text):
+   
+   pop = html.Span([
+        # dbc.Label(className="fa fa-circle-info ms-2 d-inline-block", id="title-tooltip", html_for="page-title", style={"position": "relative", "top": "-1mm", 'color': '#1C7E75'}),
+       dbc.Label(className="fa fa-circle-info ms-2 d-inline-block", id=icon_id, html_for="page-title", style={"position": "relative", "top": "-1mm", 'color': '#1C7E75'}),
+        dbc.Tooltip(
+            popover_text,
+            # "Currently only accepting .wav, .mp3, and .m4a files, contact the Data Science team to add to compatible formats. If you have a video file you would like to transcribe, you can export as `audio only` from QuickTime (and other apps).",
+            id = text_id,
+            # id="title-tooltip-hover",
+            is_open=False,
+            target = icon_id,
+            # target="title-tooltip",
+            placement="right"
+        )
+    ])
+   
+   return pop
