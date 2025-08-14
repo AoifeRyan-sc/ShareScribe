@@ -33,11 +33,18 @@ id = "word-exclusions",
 style={'display': 'none'}
 )
 
-language_selection = html.Span([
+language_translation_selection = html.Span([
     language_selection_dropdown(id = "translate-from-dropdown", label = "Translate from..."),
     language_selection_dropdown(id = "translate-to-dropdown", label = "Translate to...")
 ],
-id = "select-language",
+id = "select-translation-language",
+style={'display': 'none'}
+)
+
+language_transcription_selection = html.Span([
+    language_selection_dropdown(id = "transcribe-from-dropdown", label = "Audio language"),
+],
+id = "select-transcription-language",
 style={'display': 'none'}
 )
 
@@ -60,7 +67,8 @@ file_upload_widget = html.Span([
             {"label": "Transcribe & Translate", "value": "translations"}
         ]
     ),
-    language_selection,
+    language_translation_selection,
+    language_transcription_selection,
     word_exclusions,
     html.Div([
         html.Label("Select export format:", className = "mt-3"),

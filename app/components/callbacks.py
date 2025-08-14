@@ -130,25 +130,31 @@ def register_all_callbacks(app):
         # return {'display': 'inline-block'}
 
     @app.callback(
-        Output("select-language", "style"),
+        Output("select-translation-language", "style"),
+        Output("select-transcription-language", "style"),
         Output("word-exclusions", "style"),
         Input("action-input", "value")
     )
     def show_language_select(api_action):
-        print("lang")
         
-        if api_action == "translations":
-            dropdown_style = {
+        no_display_dropdown_style = {'display': "none"}
+        display_dropdown_style = {
                 'width': '100%', 
                 'display': 'flex',
                 'fontSize': '16px', 
                 'paddingTop': '10px',
                 'gap': '10px'
                 }
-            text_input_style = {'display': 'inline-block', 'width': '100%', 'paddingTop': '10px',}
-            return dropdown_style, text_input_style
+        text_input_style = {'display': "none"}
         
-        return {'display': "none"}, {'display': 'none'}
+        if api_action == "translations":
+            translation_dropdown_style = display_dropdown_style
+            text_input_style = {'display': 'inline-block', 'width': '100%', 'paddingTop': '10px',}
+            transcription_dropdown_style = no_display_dropdown_style
+
+            return translation_dropdown_style, transcription_dropdown_style, text_input_style
+        
+        return no_display_dropdown_style, display_dropdown_style, text_input_style
 
 
     @app.callback(
