@@ -45,7 +45,7 @@ language_transcription_selection = html.Span([
     language_selection_dropdown(id = "transcribe-from-dropdown", label = "Audio language"),
 ],
 id = "select-transcription-language",
-style={'display': 'none'}
+style={'width': '100%', 'display': 'flex', 'fontSize': '16px', 'paddingTop': '10px', 'gap': '10px'}
 )
 
 file_upload_widget = html.Span([

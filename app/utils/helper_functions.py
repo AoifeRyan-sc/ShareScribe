@@ -31,31 +31,22 @@ def check_file(contents, filename):
     
     return decoded
 
-def parse_contents(action, contents, response_format):
+def parse_contents(action, contents, transcribe_language = None):
     _, content_string = contents.split(',')
     print("parse_content running")
+    print(f"language: {transcribe_language}")
     decoded = base64.b64decode(content_string)
     file_like = io.BytesIO(decoded)
     file_like.name = 'audio.m4a'
 
     api_key = os.getenv("OPENAI_API_KEY")
-    # api_key = os.environ.get("OPENAI_API_KEY")
     
     client = openai.OpenAI(api_key = api_key)
-
-    # if response_format in ("text"):
-    #     api_output = getattr(client.audio, action).create(
-    #     model="whisper-1", 
-    #     file=file_like,
-    #     response_format = "verbose_json",
-    #     timestamp_granularities = "segment"
-    #     )
-    #     return api_output
 
     api_output = getattr(client.audio, action).create(
         model="whisper-1", 
         file=file_like,
-        # response_format = response_format
+        **({"language": transcribe_language} if action == "transcriptions" else {}),
         response_format = "srt"
     )
 
@@ -63,20 +54,42 @@ def parse_contents(action, contents, response_format):
 
 def translate_transcription(parsed_file, language_to, language_from, words):
 
-    transcribed_text = parsed_file
+    api_key = os.getenv("OPENAI_API_KEY")
+    client = openai.OpenAI(api_key = api_key)
 
     pattern = r', ?'
 
-    words_split = re.split(pattern, words)
-    words_list = [no_translation] + words_split
-    words_quote_list = [f"'{word}'" for word in words_list]
-    ", ".join(words_quote_list)
+    print(f"words: {words}")
 
-    spanish_response_srt = client.responses.create(
+    words_for_req = "Amazon, Diageo," + words if words != "" else "Amazon, Diageo"
+    words_split = re.split(pattern, words_for_req) 
+    print(words_split)
+    words_quote_list = [f"'{word}'" for word in words_split]
+    print(words_quote_list)
+    words_string = ", ".join(words_quote_list)
+    print(words_string)
+
+    f_language_from = str.lower(language_codes[language_from])
+    f_language_to = str.lower(language_codes[language_to])
+
+    prompt = f"Translate the following SRT subtitle text from {f_language_from} to {f_language_to} as plain text. Don't translate proper nouns like {words_string}. Return only the translated SRT content without any formatting:\n\n {parsed_file}"
+    # request = f"Below is an srt with {f_language_from} text. Translate it to an srt in {f_language_to}. Don't translate words that don't have a {f_language_to} translation, some examples are: {words_string}. \n\n {parsed_file}"
+    
+    print(f'request: {prompt}')
+
+    print("-----------------")
+
+    translated_srt = client.responses.create(
         model="gpt-4.1-mini",
-        input=f"Below is an srt with {language_from} text. Translate it to an srt in {language_to}. Don't translate words that don't have a {language_to} translation, some examples are: {words_not_for_translation}. \n\n {transcription_srt}"
+        input=prompt
     )
+    print("-----------------")
 
+    print(f"translated_text: {translated_srt.output_text}")
+    print(f"class translated_srt: {type(translated_srt)}")
+    print(f"class translated_srt.output_text: {type(translated_srt.output_text)}")
+
+    return translated_srt.output_text
 
 
 def srt_to_docx(srt_string):

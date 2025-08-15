@@ -1,26 +1,33 @@
 from dash import dcc, callback, Input, Output, State, html, no_update
-from utils import parse_contents, check_file, srt_to_docx
+from utils import parse_contents, check_file, srt_to_docx, translate_transcription
 from dash.exceptions import PreventUpdate
 
 def register_all_callbacks(app):
     @app.callback(
-            Output('error-message', 'displayed'),
-            Output('error-message', 'message'),
+            Output('file-error-message', 'displayed'),
+            Output('file-error-message', 'message'),
             Output('upload-data', 'contents'),
             Output('upload-data', 'filename'),
+            Output('lang-error-message', 'displayed'),
+            Output('lang-error-message', 'message'),
             Input('upload-data', 'contents'),
             Input('go-button', 'n_clicks'),
             State('upload-data', 'filename'),
+            State('action-input', 'value'),
+            State('translate-from-dropdown', 'value'),
+            State('translate-to-dropdown', 'value'),
             prevent_initial_call=True
             )
-    def file_check_callback(content, nclicks, name):
+    def file_check_callback(content, nclicks, name, activity, translate_to, translate_from):
         print("nclicks: ", nclicks)
 
         if content is None and nclicks > 0:
             print("checking file upload")
-            return True, f'No file uploaded', None, None
+            return True, f'No file uploaded', None, None, None, None
     
-        if content is not None:
+        if content is not None and activity == "translations":
+            print(translate_from)
+            print(translate_to)
             print("file check callback")
             check_output = check_file(content, name)
 
@@ -34,29 +41,33 @@ def register_all_callbacks(app):
             Output('api_output_text', 'children'),
             Input('go-button', 'n_clicks'),
             State('action-input', 'value'),
+            State('transcribe-from-dropdown', 'value'),
+            State('translate-from-dropdown', 'value'),
             State('translate-to-dropdown', 'value'),
-            State('output-type', 'value'),
+            State('no-translate-words', 'value'),
             State('upload-data', 'contents'),
             State('upload-data', 'filename'),
             prevent_initial_call=True
             )
-    def update_output(n_clicks, action, translate_to, response_format, content, filename):
+    def update_output(n_clicks, action, transcribe_lang, translate_from, translate_to, no_translate_words, content, filename):
 
         if content is not None and n_clicks > 0:
 
-            # if action == "translations" & translate_to != "en":
-            #     # overriding action to transcribe text before using gpt to translate
-            #     transcribed_file =  parse_contents("transcriptions", content, response_format) 
-            #     processed_file = translate_transcription(transcribed_file, translate_to)
-            #     processed_dict = {"processed_file": processed_file,
-            #                     "processed_file_name": filename}
-                
-            #     return processed_dict, processed_file
-            
-            # else:    
-            processed_file =  parse_contents(action, content, response_format)
+            if action == "translations" and translate_to != "en":
+                print(translate_from)
+                print(translate_to)
+
+                parsed_file =  parse_contents(action = "transcriptions", contents = content, transcribe_language = translate_from)
+                processed_file = translate_transcription(parsed_file, language_to=translate_to, language_from=translate_from, words = no_translate_words)
+
+            else:
+                print(transcribe_lang)
+                lang = transcribe_lang if action == "transcriptions" else None
+                processed_file =  parse_contents(action, content, transcribe_language = lang)
+
+
             processed_dict = {"processed_file": processed_file,
-                            "processed_file_name": filename}
+                              "processed_file_name": filename}
 
             return processed_dict, processed_file
             
