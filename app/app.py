@@ -44,16 +44,14 @@ app.layout = dbc.Container([
                     style={'height': '400px', "overflowY": "scroll"}
                 ),
             ],
-            # style = {'display': 'inline-block', 'position': 'relative'},
             style = {"display": None, 'position': 'relative'},
             id = "display-col",
         )
     ],
     className="justify-content-center align-items-center h-100",
-    # style = {"display": "flex", "flex-flow": "row wrap"}
-    # className="justify-content-center align-items-center h-100 align-items-stretch"
     ),
         cp.file_error_message,
+        cp.language_error_message,
         cp.footer,
     ], style={"height": "80vh"})
 

@@ -13,28 +13,28 @@ def register_all_callbacks(app):
             Input('upload-data', 'contents'),
             Input('go-button', 'n_clicks'),
             State('upload-data', 'filename'),
-            State('action-input', 'value'),
-            State('translate-from-dropdown', 'value'),
             State('translate-to-dropdown', 'value'),
+            State('action-input', 'value'),
             prevent_initial_call=True
             )
-    def file_check_callback(content, nclicks, name, activity, translate_to, translate_from):
+    def file_check_callback(content, nclicks, name, language_to, api_action):  #, 
         print("nclicks: ", nclicks)
+        print(f"language to: {language_to}")
 
         if content is None and nclicks > 0:
-            print("checking file upload")
-            return True, f'No file uploaded', None, None, None, None
+            return True, f'No file uploaded', None, None, False, None
     
-        if content is not None and activity == "translations":
-            print(translate_from)
-            print(translate_to)
-            print("file check callback")
+        if content is not None:
             check_output = check_file(content, name)
 
             if type(check_output) == str:
-                return True, check_output, None, None
+                return True, check_output, None, None, False, None
+            
+            elif api_action == "translations" and language_to is None:
+                print("stAtemnet workingncdvw")
+                return False, None, content, name, True, "Specify language to translate audio file to!"
 
-        return False, None, content, name
+        return False, None, content, name, False, None
 
     @app.callback(
             Output("processed_file", "data"),
@@ -177,3 +177,36 @@ def register_all_callbacks(app):
         if n_clicks is None:
             raise no_update
         return ""
+            
+    # @app.callback(
+    #         Output('file-error-message', 'displayed'),
+    #         Output('file-error-message', 'message'),
+    #         Output('upload-data', 'contents'),
+    #         Output('upload-data', 'filename'),
+    #         Output('lang-error-message', 'displayed'),
+    #         Output('lang-error-message', 'message'),
+    #         Input('upload-data', 'contents'),
+    #         Input('go-button', 'n_clicks'),
+    #         State('upload-data', 'filename'),
+    #         State('action-input', 'value'),
+    #         State('translate-from-dropdown', 'value'),
+    #         State('translate-to-dropdown', 'value'),
+    #         prevent_initial_call=True
+    #         )
+    # def file_check_callback(content, nclicks, name, activity, translate_to, translate_from):
+    #     print("nclicks: ", nclicks)
+
+    #     if content is None and nclicks > 0:
+    #         print("checking file upload")
+    #         return True, f'No file uploaded', None, None, None, None
+    
+    #     if content is not None and activity == "translations":
+    #         if translate_to is None or translate_from is None:
+    #             error_message = "please select a language to translate to and from"
+    #             print("file check callback")
+    #             check_output = check_file(content, name)
+
+    #         if type(check_output) == str:
+    #             return True, check_output, None, None
+
+    #     return False, None, content, name

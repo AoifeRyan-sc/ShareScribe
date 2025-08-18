@@ -67,10 +67,17 @@ def translate_transcription(parsed_file, language_to, language_from, words):
     words_string = ", ".join(words_quote_list)
     print(words_string)
 
-    f_language_from = str.lower(language_codes[language_from])
-    f_language_to = str.lower(language_codes[language_to])
+    if language_from is not None:
+        f_language_from = str.lower(language_codes[language_from])
+        f_language_to = str.lower(language_codes[language_to])
 
-    prompt = f"Translate the following SRT subtitle text from {f_language_from} to {f_language_to} as plain text. Don't translate proper nouns like {words_string}. Return only the translated SRT content without any formatting:\n\n {parsed_file}"
+        prompt = f"Translate the following SRT subtitle text from {f_language_from} to {f_language_to} as plain text. Don't translate proper nouns like {words_string}. Return only the translated SRT content without any formatting:\n\n {parsed_file}"
+
+    else:
+        f_language_to = str.lower(language_codes[language_to])
+
+        prompt = f"Translate the following SRT subtitle text to {f_language_to} as plain text. Don't translate proper nouns like {words_string}. Return only the translated SRT content without any formatting:\n\n {parsed_file}"
+
     # request = f"Below is an srt with {f_language_from} text. Translate it to an srt in {f_language_to}. Don't translate words that don't have a {f_language_to} translation, some examples are: {words_string}. \n\n {parsed_file}"
     
     print(f'request: {prompt}')
