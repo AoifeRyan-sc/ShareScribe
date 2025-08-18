@@ -59,9 +59,7 @@ def translate_transcription(parsed_file, language_to, language_from, words):
 
     pattern = r', ?'
 
-    print(f"words: {words}")
-
-    words_for_req = "Amazon, Diageo," + words if words != "" else "Amazon, Diageo"
+    words_for_req = "Amazon, Diageo," + words if words is not None else "Amazon, Diageo"
     words_split = re.split(pattern, words_for_req) 
     print(words_split)
     words_quote_list = [f"'{word}'" for word in words_split]
@@ -128,7 +126,7 @@ def srt_to_docx(srt_string):
     return byte_stream
 
 
-def info_popover(text_id, icon_id, popover_text):
+def info_popover(icon_id, popover_text):
    
    pop = html.Span([
         # dbc.Label(className="fa fa-circle-info ms-2 d-inline-block", id="title-tooltip", html_for="page-title", style={"position": "relative", "top": "-1mm", 'color': '#1C7E75'}),
@@ -136,11 +134,9 @@ def info_popover(text_id, icon_id, popover_text):
         dbc.Tooltip(
             popover_text,
             # "Currently only accepting .wav, .mp3, and .m4a files, contact the Data Science team to add to compatible formats. If you have a video file you would like to transcribe, you can export as `audio only` from QuickTime (and other apps).",
-            id = text_id,
-            # id="title-tooltip-hover",
+            id = icon_id + "_hover",
             is_open=False,
             target = icon_id,
-            # target="title-tooltip",
             placement="right"
         )
     ])
@@ -153,6 +149,7 @@ def language_selection_dropdown(id, label):
             options = language_codes,
             value = "",
             placeholder = label,
+            # className="form-control",
             id = id,
             style = {'flex-grow': '1'}
         )

@@ -53,7 +53,7 @@ app.layout = dbc.Container([
     # style = {"display": "flex", "flex-flow": "row wrap"}
     # className="justify-content-center align-items-center h-100 align-items-stretch"
     ),
-        cp.error_message,
+        cp.file_error_message,
         cp.footer,
     ], style={"height": "80vh"})
 
