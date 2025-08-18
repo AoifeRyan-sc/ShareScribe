@@ -1,20 +1,13 @@
 from dash import dcc, html
 import dash_bootstrap_components as dbc
-from utils import language_codes
+from utils import language_codes, info_popover, language_selection_dropdown
 
 
 title_and_tooltip = html.Span([
     dbc.Row([
     dbc.Col([
         html.H2("SAMY Audio Transcriber", id="page-title", className="text-center mb-4 d-inline-block", style={"white-space": "nowrap"}),
-        dbc.Label(className="fa fa-circle-info ms-2 d-inline-block", id="title-tooltip", html_for="page-title", style={"position": "relative", "top": "-1mm", 'color': '#1C7E75'}),
-        dbc.Tooltip(
-            "Currently only accepting .wav, .mp3, and .m4a files, contact the Data Science team to add to compatible formats. If you have a video file you would like to transcribe, you can export as `audio only` from QuickTime (and other apps).",
-            id="title-tooltip-hover",
-            is_open=False,
-            target="title-tooltip",
-            placement="right"
-        )
+        info_popover(icon_id= "title-tooltip", popover_text= "Currently only accepting .wav, .mp3, and .m4a files, contact the Data Science team to add to compatible formats. If you have a video file you would like to transcribe, you can export as `audio only` from QuickTime (and other apps)."),
     ], className="d-flex justify-content-center align-items-center", width={"size": 6, "offset": 3})
 ])
 ])
@@ -28,17 +21,42 @@ buttons_and_tooltip = html.Span([
 ])
 ])
 
-
-language_selection = html.Span([
-    dbc.Select(
-        language_codes,
-        id = "language-dropdown",
-        size = "lg",
-        name = "Translating to:"
+word_exclusions = html.Span([
+    html.Div([
+        dbc.Label("Proper nouns in the audio file you do not want translated:", html_for="no-translate-title", className="mb-2 d-block"),
+        info_popover(icon_id = "no_translate_tooltip", popover_text = "Optional input to specify words not to translate.")
+    ], className="d-flex align-items-center mb-1"),
+    dcc.Input(
+        id = "no-translate-words",
+        placeholder = "SAMY UK, McLaren, Diageo...",
+        # style = {'width': '100%'},
+        style={
+        'width': '100%',
+        'height': '35px',
+        'borderRadius': '4px',           
+        'borderColor':'#cccccc',
+        'borderWidth': '1px',         
+        'borderStyle': 'solid'        
+    }
     )
 ],
-id = "select-language",
-style={"display": "None"}
+id = "word-exclusions",
+style={'display': 'none'}
+)
+
+language_translation_selection = html.Span([
+    language_selection_dropdown(id = "translate-from-dropdown", label = "Translate from..."),
+    language_selection_dropdown(id = "translate-to-dropdown", label = "Translate to...")
+],
+id = "select-translation-language",
+style={'display': 'none'}
+)
+
+language_transcription_selection = html.Span([
+    language_selection_dropdown(id = "transcribe-from-dropdown", label = "Audio language (optional)"),
+],
+id = "select-transcription-language",
+style={'width': '100%', 'display': 'flex', 'fontSize': '16px', 'paddingTop': '10px', 'gap': '10px'}
 )
 
 file_upload_widget = html.Span([
@@ -60,7 +78,9 @@ file_upload_widget = html.Span([
             {"label": "Transcribe & Translate", "value": "translations"}
         ]
     ),
-    language_selection,
+    language_translation_selection,
+    language_transcription_selection,
+    word_exclusions,
     html.Div([
         html.Label("Select export format:", className = "mt-3"),
         dbc.RadioItems(
@@ -75,7 +95,13 @@ file_upload_widget = html.Span([
     dcc.Download(id="download-transcript") # should probably move the location of this
 ])
 
-error_message = html.Span([dbc.Row(dbc.Col(
+file_error_message = html.Span([dbc.Row(dbc.Col(
     dcc.ConfirmDialog(
-        id='error-message', message = [], displayed = False)
+        id='file-error-message', message = [], displayed = False)
+    ))])
+
+
+language_error_message = html.Span([dbc.Row(dbc.Col(
+    dcc.ConfirmDialog(
+        id='lang-error-message', message = [], displayed = False)
     ))])

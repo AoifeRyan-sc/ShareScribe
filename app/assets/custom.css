@@ -1,5 +1,5 @@
 *{ 
-    font-family: Helvetica; /* need to use the "*" for this to work it seems
+    font-family: Helvetica; 
   }
 
 
@@ -87,3 +87,9 @@ input[type='radio']:hover {
     border-radius: 5px;
     text-align: center;
 }
+
+/* placeholder text colours */
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #ababab; 
+    opacity: 1; /* Firefox */
+  }
